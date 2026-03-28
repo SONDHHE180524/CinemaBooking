@@ -1,0 +1,68 @@
+<div class="profile-container container">
+  <div class="profile-card glass" *ngIf="!loading; else loadingTpl">
+    <div class="profile-header">
+      <div class="avatar-large">
+        {{ user?.fullName?.charAt(0)?.toUpperCase() }}
+      </div>
+      <div class="user-info">
+        <h2 class="outfit">{{ user?.fullName }}</h2>
+        <p class="role-badge">{{ user?.role }}</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn-edit-toggle" (click)="toggleEdit()">
+          {{ isEditing ? 'Hủy' : 'Chỉnh sửa' }}
+        </button>
+        <a routerLink="/change-password" class="btn-change-pw">
+          🔒 Đổi mật khẩu
+        </a>
+      </div>
+    </div>
+
+    <div class="profile-body">
+      <div *ngIf="message" [class]="'alert ' + message.type">
+        {{ message.text }}
+      </div>
+
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Họ và Tên</label>
+            <input type="text" formControlName="fullName" [readonly]="!isEditing">
+            <div class="field-error"
+              *ngIf="isEditing && profileForm.get('fullName')?.touched && profileForm.get('fullName')?.invalid">
+              Vui lòng nhập họ tên
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Email <span class="read-only-note">(Không thể thay đổi)</span></label>
+            <input type="email" formControlName="email">
+          </div>
+
+          <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" formControlName="phoneNumber" [readonly]="!isEditing" placeholder="Chưa cập nhật">
+          </div>
+
+          <div class="form-group">
+            <label>Ngày tham gia</label>
+            <input type="text" [value]="user?.createdAt | date:'dd/MM/yyyy'" readonly disabled>
+          </div>
+        </div>
+
+        <div class="form-actions" *ngIf="isEditing">
+          <button type="submit" class="btn-save" [disabled]="profileForm.invalid || saving">
+            {{ saving ? 'Đang lưu...' : 'Lưu Thay Đổi' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <ng-template #loadingTpl>
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <p>Đang tải thông tin...</p>
+    </div>
+  </ng-template>
+</div>

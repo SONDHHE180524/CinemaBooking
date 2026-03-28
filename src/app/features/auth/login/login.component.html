@@ -1,0 +1,35 @@
+<div class="auth-container">
+  <div class="auth-card glass">
+    <h2 class="gradient-text">Đăng Nhập</h2>
+    <p class="subtitle">Chào mừng bạn trở lại với CinemaMax</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" formControlName="email" placeholder="abc@example.com">
+        <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']">
+          Email không hợp lệ
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" formControlName="password" placeholder="********">
+        <div class="forgot-link">
+          <a routerLink="/forgot-password">Quên mật khẩu?</a>
+        </div>
+      </div>
+
+      <div class="error-msg server-error" *ngIf="error">{{ error }}</div>
+      <div class="success-msg server-success" *ngIf="successMsg">{{ successMsg }}</div>
+
+      <button type="submit" [disabled]="loginForm.invalid || loading || successMsg !== ''" class="btn-primary">
+        {{ successMsg ? 'Đăng nhập thành công...' : (loading ? 'Đang xử lý...' : 'Đăng Nhập') }}
+      </button>
+
+      <div class="auth-footer">
+        Bạn chưa có tài khoản? <a routerLink="/register">Đăng ký ngay</a>
+      </div>
+    </form>
+  </div>
+</div>
