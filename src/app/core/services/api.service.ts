@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly API_URL = 'http://cinemamax-api.somee.com/api';
+  private readonly API_URL = 'https://cinemamax-api.somee.com/api';
   
   constructor(private http: HttpClient) { }
 
